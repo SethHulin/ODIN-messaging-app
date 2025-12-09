@@ -5,10 +5,61 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+    provider = "prisma-client"
+    output   = "../generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
+    provider = "postgresql"
+}
+
+model User {
+    id        Int      @id @default(autoincrement())
+    username  String   @unique
+    aboutMe   String
+    password  String
+    createdAt DateTime @default(now())
+
+    sentRequests     Friendship[] @relation("Initiator")
+    receivedRequests Friendship[] @relation("Recipient")
+
+    sentMessages     Message[] @relation("Initiator")
+    receivedMessages Message[] @relation("Recipient")
+}
+
+enum FriendshipStatus {
+    PENDING
+    ACCEPTED
+    REFUSED
+    BLOCKED
+}
+
+model Friendship {
+    id         String           @id @default(uuid())
+    status     FriendshipStatus @default(PENDING)
+    createdAt  DateTime         @default(now())
+    acceptedAt DateTime?
+
+    senderId Int
+    sender   User @relation("Initiator", fields: [senderId], references: [id])
+
+    recipientId Int
+    recipient   User @relation("Recipient", fields: [recipientId], references: [id])
+
+    @@unique([senderId, recipientId])
+    @@index([senderId, recipientId, status])
+}
+
+model Message {
+    id        String   @id @default(uuid())
+    text      String
+    createdAt DateTime @default(now())
+
+    senderId Int
+    sender   User @relation("Initiator", fields: [senderId], references: [id])
+
+    recipientId Int
+    recipient   User @relation("Recipient", fields: [recipientId], references: [id])
+
+    @@index([senderId, recipientId])
 }
