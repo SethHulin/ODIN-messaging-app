@@ -5,7 +5,7 @@ const db = require("../db/prisma");
 
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.JWT_SECRET || 'cats'
+    secretOrKey: process.env.JWT_SECRET
 }
 
 passport.use(
