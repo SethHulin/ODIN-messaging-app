@@ -22,24 +22,6 @@ const validateUser = [
         ),
 ]
 
-const validateUserInfo = [
-    body("username")
-        .trim()
-        .optional()
-        .isLength({ max: 20 })
-        .withMessage(`Username has a limit of 20 characters long`)
-        .matches(/^[a-zA-Z0-9 ]*$/)
-        .withMessage(`Username must only have characters numbers and spaces`),
-    body("about")
-        .trim()
-        .optional()
-        .isLength({ max: 200 })
-        .withMessage('About me has a limit of 200 characters long')
-        .matches(/^[a-zA-Z0-9!@#$%^&* ]*$/)
-        .withMessage(
-            `About me can only contain letters, numbers, spaces, and special characters (!@#$%^&*).`
-        ),
-]
 
 const login = async (req, res, next) => {
     const { username, password } = req.body;
