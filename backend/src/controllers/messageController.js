@@ -111,7 +111,7 @@ const editMessage = [passport.authenticate("jwt", { session: false }), editedMes
     const { text } = matchedData(req)
 
     try {
-        const message = await db.message.findFirst({
+        const message = await db.message.findUnique({
             where: {
                 id: messageId,
                 senderId: req.user.id
@@ -161,7 +161,7 @@ const deleteMessage = [passport.authenticate("jwt", { session: false }), async (
     const messageId = req.params.id
 
     try {
-        const message = await db.message.findFirst({
+        const message = await db.message.findUnique({
             where: {
                 id: messageId,
             }
@@ -176,10 +176,18 @@ const deleteMessage = [passport.authenticate("jwt", { session: false }), async (
             })
         }
 
+        if (message.senderId !== req.user.id) {
+            return res.status(403).json({
+                error: {
+                    message: "You can only delete your own messages",
+                    timestamp: new Date().toISOString()
+                }
+            })
+        }
+
         const deletedMessage = await db.message.delete({
             where: {
                 id: message.id,
-                senderId: req.user.id
             }
         })
         res.json({
