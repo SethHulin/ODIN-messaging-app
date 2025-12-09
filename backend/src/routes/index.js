@@ -4,8 +4,8 @@ const userRouter = require('./userRoutes')
 const authRouter = require('./authRoutes')
 const messageRouter = require('./messageRoutes')
 
+router.use("/auth", authRouter)
 router.use("/users", userRouter)
-router.use("/users", authRouter)
 router.use("/messages", messageRouter)
 
 module.exports = router;
