@@ -143,7 +143,7 @@ export default function SideBar({ user, ready, onSectionChange, currentUser, set
                     <div className="flex items-center justify-between gap-3">
                         <div className="flex-1 min-w-0">
                             <p className="font-medium text-white truncate">{currentUser.username}</p>
-                            <p className="text-sm text-zinc-300 truncate">{currentUser.aboutMe}</p>
+                            <p className="text-sm text-zinc-500 truncate">{currentUser.aboutMe}</p>
                         </div>
                         <button onClick={() => handleSectionClick({ name: "settings" })} className="text-zinc-400 hover:text-white transition-colors cursor-pointer shrink-0">
                             <Settings className="w-5 h-auto" />

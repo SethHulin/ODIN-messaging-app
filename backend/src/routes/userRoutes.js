@@ -5,6 +5,7 @@ const userController = require('../controllers/userController')
 userRouter.get("/me", userController.getCurrentProfile)
 userRouter.get("/friends", userController.getFriends)
 userRouter.get("/friends/requests", userController.getFriendRequests)
+userRouter.get("/friends/blocked", userController.getBlockedUsers)
 userRouter.get("/:id", userController.getProfile)
 userRouter.get("/", userController.getUsers)
 

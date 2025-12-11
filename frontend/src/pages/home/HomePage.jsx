@@ -3,6 +3,7 @@ import { useNavigate } from "react-router"
 import { AuthContext } from "../../contexts/AuthContext"
 import SideBar from "./components/SideBar"
 import Settings from "./components/Settings"
+import Friends from "./components/Friends"
 
 export default function HomePage() {
     const { user, ready } = useContext(AuthContext)
@@ -26,9 +27,7 @@ export default function HomePage() {
 
             <section className="flex-1 flex flex-col">
                 {currentSection.name === 'friends' && (
-                    <div className="p-6">
-                        <h1 className="text-2xl font-bold mb-4">Friends</h1>
-                    </div>
+                    <Friends user={user} />
                 )}
 
                 {currentSection.name === "user" && (

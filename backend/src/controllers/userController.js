@@ -445,8 +445,35 @@ const getUsers = [passport.authenticate("jwt", { session: false }), async (req, 
     }
 }]
 
+const getBlockedUsers = [passport.authenticate("jwt", { session: false }), async (req, res, next) => {
+    try {
+        const blockedFriendships = await db.friendship.findMany({
+            where: {
+                status: "BLOCKED",
+                senderId: req.user.id
+            },
+            include: {
+                recipient: {
+                    select: {
+                        id: true,
+                        username: true,
+                        aboutMe: true
+                    }
+                }
+            }
+        })
+        const blockedUsers = blockedFriendships.map(friendship => friendship.recipient)
+        res.json({
+            blockedUsers
+        })
+    } catch (err) {
+        next(err)
+    }
+}]
+
 module.exports = {
     updateInfo,
+    getBlockedUsers,
     addFriend,
     acceptFriend,
     refuseFriend,
