@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { Users, UserPlus, ChevronLeft, ChevronRight, Settings } from "lucide-react"
 
-export default function SideBar({ user, ready, onSectionChange }) {
+export default function SideBar({ user, ready, onSectionChange, currentUser, setCurrentUser }) {
     const [users, setUsers] = useState([])
-    const [currentUser, setCurrentUser] = useState()
     const [sideBarHidden, setSideBarHidden] = useState(false)
     const [isLoading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -13,7 +12,6 @@ export default function SideBar({ user, ready, onSectionChange }) {
 
     useEffect(() => {
         async function fetchData() {
-
             if (!ready || !user) return;
             setLoading(true)
             setError(null)
@@ -61,12 +59,12 @@ export default function SideBar({ user, ready, onSectionChange }) {
 
     return sideBarHidden ? (
         <aside className="shrink-0">
-            <button onClick={() => setSideBarHidden(false)} className="h-screen bg-zinc-900 hover:bg-zinc-800 p-2 border-r border-zinc-700 transition-colors cursor-pointer">
+            <button onClick={() => setSideBarHidden(false)} className="min-h-screen bg-zinc-900 hover:bg-zinc-800 p-2 border-r border-zinc-700 transition-colors cursor-pointer">
                 <ChevronRight className="w-5 h-auto" />
             </button>
         </aside>
     ) : (
-        <aside className="flex flex-col max-w-fit sm:max-w-60 md:max-w-80 bg-zinc-900 border-r border-zinc-700 h-screen shrink-0 overflow-x-hidden">
+        <aside className="flex flex-col max-w-fit sm:max-w-60 md:max-w-80 bg-zinc-900 border-r border-zinc-700 min-h-screen shrink-0 overflow-x-hidden">
             <section className="flex items-center justify-between p-4 border-b border-zinc-800">
                 <h2 className="font-semibold text-zinc-400 uppercase tracking-wide">Messaging App</h2>
                 <button onClick={() => setSideBarHidden(true)} className="text-zinc-400 hover:text-white transition-colors ml-4 cursor-pointer">

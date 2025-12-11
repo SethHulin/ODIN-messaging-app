@@ -2,11 +2,13 @@ import { useContext, useState, useEffect } from "react"
 import { useNavigate } from "react-router"
 import { AuthContext } from "../../contexts/AuthContext"
 import SideBar from "./components/SideBar"
+import Settings from "./components/Settings"
 
 export default function HomePage() {
     const { user, ready } = useContext(AuthContext)
     const navigate = useNavigate()
     const [currentSection, setCurrentSection] = useState('friends')
+    const [currentUser, setCurrentUser] = useState(null)
 
     useEffect(() => {
         if (ready && !user) {
@@ -20,9 +22,9 @@ export default function HomePage() {
 
     return (
         <main className="bg-zinc-800 text-white min-h-screen flex">
-            <SideBar user={user} ready={ready} onSectionChange={handleSectionChange} />
+            <SideBar user={user} ready={ready} onSectionChange={handleSectionChange} currentUser={currentUser} setCurrentUser={setCurrentUser} />
 
-            <div className="flex-1 flex flex-col">
+            <section className="flex-1 flex flex-col">
                 {currentSection.name === 'friends' && (
                     <div className="p-6">
                         <h1 className="text-2xl font-bold mb-4">Friends</h1>
@@ -33,7 +35,11 @@ export default function HomePage() {
                     <div className="p-6">
                     </div>
                 )}
-            </div>
+
+                {currentSection.name === "settings" && (
+                    <Settings user={user} currentUser={currentUser} />
+                )}
+            </section>
         </main>
     )
 }
